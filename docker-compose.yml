@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  oracle-db:
+    image: gvenzl/oracle-xe:21.3.0
+    container_name: oracle-db
+    ports:
+      - 1521:1521
+    env_file:
+      - .oracle.env
+    volumes:
+      - oracle-data:/opt/oracle/oradata
+    
+volumes:
+  oracle-data:
