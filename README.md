@@ -31,3 +31,29 @@ Wipe out data in database
 ```bash
 docker-compose down -v
 ```
+
+### Migration
+
+First install knex global
+
+```bash
+npm i -g knex
+```
+
+Create migration
+
+```bash
+knex migrate:make <name>
+```
+
+Up migration
+
+```bash
+knex migrate:up
+```
+
+Latest migration
+
+```bash
+knex migration:latest
+```
