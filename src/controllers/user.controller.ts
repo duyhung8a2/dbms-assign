@@ -3,7 +3,7 @@ import { UserModel } from '../models/user.model';
 
 export const handleGetUsers = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const users = UserModel.getByUuid('adasd');
+    const users = await UserModel.getAll();
     res.status(200).json({ users });
   } catch (error) {
     next(error);

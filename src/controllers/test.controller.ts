@@ -3,8 +3,8 @@ import { AppError, CustomError } from '../config/AppError';
 
 export const handleGetAllUsers = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const data = 'test';
-    res.status(200).json({ data });
+    const response = 'uhh';
+    res.status(200).json({ data: response });
   } catch (error) {
     next(error);
   }

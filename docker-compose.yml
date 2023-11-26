@@ -10,6 +10,6 @@ services:
       - .oracle.env
     volumes:
       - oracle-data:/opt/oracle/oradata
-    
+
 volumes:
   oracle-data:
