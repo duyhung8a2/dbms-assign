@@ -1,6 +1,5 @@
-import { PostRequest, UserRequest, GroupRequest } from '../../interfaces/middleware';
-
-export {};
+import { PostRequest, UserRequest, GroupRequest, User } from '../../interfaces/middleware';
+import { User } from './models/user.model';
 
 declare global {
   namespace Express {
@@ -9,6 +8,7 @@ declare global {
       requestPost: PostRequest;
       requestGroup: GroupRequest;
       requestFollowed: UserRequest;
+      user?: User;
     }
   }
 }

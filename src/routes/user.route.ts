@@ -1,5 +1,9 @@
 import express from 'express';
-import { handleGetUsers } from '../controllers/user.controller';
+import { handleGetUserById, handleGetUsers, handleSignIn, handleSignUp } from '../controllers/user.controller';
+import { verifyToken } from '../middleware/user.middleware';
 export const userRouter = express.Router();
 
-userRouter.get('/all', [handleGetUsers]);
+userRouter.get('/all', [verifyToken, handleGetUsers]);
+userRouter.get('/:id', [verifyToken, handleGetUserById]);
+userRouter.post('/signup', [handleSignUp]);
+userRouter.post('/signin', [handleSignIn]);

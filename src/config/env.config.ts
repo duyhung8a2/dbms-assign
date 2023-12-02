@@ -4,5 +4,7 @@ export const envConfig = {
   DATABASE_PASSWORD: process.env.DATABASE_PASSWORD,
   DATABASE_HOST: process.env.DATABASE_HOST,
   DATABASE_PORT: parseInt(process.env.DATABASE_PORT as string, 10),
-  DATABASE_DATABASE: process.env.DATABASE_DATABASE
+  DATABASE_DATABASE: process.env.DATABASE_DATABASE,
+  JWT_SECRET: process.env.JWT_SECRET || '',
+  EXPIRED_IN: process.env.EXPIRED_IN || ''
 };
