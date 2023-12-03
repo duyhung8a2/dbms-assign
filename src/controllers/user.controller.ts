@@ -25,6 +25,10 @@ export const handleSignUp = async (req: Request, res: Response, next: NextFuncti
   try {
     // role: ['admin', 'customer'], default is 'customer'
     const { name, phone, email, password, rePassword, role } = req.body;
+    const isExistedUser = await UserService.checkUserIsExisted(email);
+    if (isExistedUser) {
+      return res.status(401).json({ message: 'User has already existed!!!' });
+    }
     await UserModel.create({ name, phone, email, password, rePassword, role });
     res.status(201).json({ message: 'Create successfully!!!' });
   } catch (error) {
@@ -41,6 +45,22 @@ export const handleSignIn = async (req: Request, res: Response, next: NextFuncti
     }
     const token = user.userId && user.name && AuthService.generateToken(user.userId, user.name);
     res.status(200).json({ token });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const uploadImage = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    // Assuming the image file is sent via form-data in the 'image' field
+    const image = req.file;
+    if (!image) {
+      res.status(200).json({ message: 'Invalid Image' });
+    } else {
+      const userService = new UserService();
+      const url = await userService.uploadImage(image);
+      res.status(200).json({ message: 'Image uploaded successfully', url });
+    }
   } catch (error) {
     next(error);
   }
