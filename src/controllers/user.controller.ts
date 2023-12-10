@@ -25,6 +25,10 @@ export const handleSignUp = async (req: Request, res: Response, next: NextFuncti
   try {
     // role: ['admin', 'customer'], default is 'customer'
     const { name, phone, email, password, rePassword, role } = req.body;
+    const isExistedUser = await UserService.checkUserIsExisted(email);
+    if (isExistedUser) {
+      return res.status(401).json({ message: 'User has already existed!!!' });
+    }
     await UserModel.create({ name, phone, email, password, rePassword, role });
     res.status(201).json({ message: 'Create successfully!!!' });
   } catch (error) {
@@ -39,7 +43,8 @@ export const handleSignIn = async (req: Request, res: Response, next: NextFuncti
     if (!user) {
       return res.status(401).json({ message: 'Invalid username or password' });
     }
-    const token = user.userId && user.name && AuthService.generateToken(user.userId, user.name);
+    const token =
+      user.userId && user.email && user.role && AuthService.generateToken(user.userId, user.email, user.role);
     res.status(200).json({ token });
   } catch (error) {
     next(error);
