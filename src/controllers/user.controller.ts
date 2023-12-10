@@ -50,19 +50,3 @@ export const handleSignIn = async (req: Request, res: Response, next: NextFuncti
     next(error);
   }
 };
-
-// export const uploadImage = async (req: Request, res: Response, next: NextFunction) => {
-//   try {
-//     // Assuming the image file is sent via form-data in the 'image' field
-//     const image = req.file;
-//     if (!image) {
-//       res.status(200).json({ message: 'Invalid Image' });
-//     } else {
-//       const userService = new UserService();
-//       const url = await userService.uploadImage(image);
-//       res.status(200).json({ message: 'Image uploaded successfully', url });
-//     }
-//   } catch (error) {
-//     next(error);
-//   }
-// };
