@@ -43,25 +43,26 @@ export const handleSignIn = async (req: Request, res: Response, next: NextFuncti
     if (!user) {
       return res.status(401).json({ message: 'Invalid username or password' });
     }
-    const token = user.userId && user.name && AuthService.generateToken(user.userId, user.name);
+    const token =
+      user.userId && user.email && user.role && AuthService.generateToken(user.userId, user.email, user.role);
     res.status(200).json({ token });
   } catch (error) {
     next(error);
   }
 };
 
-export const uploadImage = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    // Assuming the image file is sent via form-data in the 'image' field
-    const image = req.file;
-    if (!image) {
-      res.status(200).json({ message: 'Invalid Image' });
-    } else {
-      const userService = new UserService();
-      const url = await userService.uploadImage(image);
-      res.status(200).json({ message: 'Image uploaded successfully', url });
-    }
-  } catch (error) {
-    next(error);
-  }
-};
+// export const uploadImage = async (req: Request, res: Response, next: NextFunction) => {
+//   try {
+//     // Assuming the image file is sent via form-data in the 'image' field
+//     const image = req.file;
+//     if (!image) {
+//       res.status(200).json({ message: 'Invalid Image' });
+//     } else {
+//       const userService = new UserService();
+//       const url = await userService.uploadImage(image);
+//       res.status(200).json({ message: 'Image uploaded successfully', url });
+//     }
+//   } catch (error) {
+//     next(error);
+//   }
+// };

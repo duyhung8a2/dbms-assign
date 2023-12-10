@@ -5,3 +5,6 @@ pg-data
 mg-data
 elk-data
 redis-data
+launch.json
+package-lock.json
+yarn.lock

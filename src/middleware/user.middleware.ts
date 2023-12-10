@@ -4,20 +4,6 @@ import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { envConfig } from '../config/env.config';
 
-// export const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
-//   const { userUuid } = req.params;
-//   try {
-//     const user = await UserModel.getByUuid(userUuid);
-//     if (!user) {
-//       throw new AppError(404, 'NOT_FOUND');
-//     }
-//     req.requestUser = user;
-//     next();
-//   } catch (error) {
-//     next(error);
-//   }
-// };
-
 export const verifyToken = (req: Request, res: Response, next: NextFunction) => {
   const bearerHeader = req.headers['authorization'];
 
