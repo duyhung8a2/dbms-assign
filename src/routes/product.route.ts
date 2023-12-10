@@ -4,7 +4,8 @@ import {
   handleDeleteProductById,
   handleGetAllProducts,
   handleGetProductById,
-  handlePostProduct
+  handlePostProduct,
+  handleUpdateProductById
 } from '../controllers/product.controller';
 import { verifyToken } from '../middleware/user.middleware';
 export const productRouter = express.Router();
@@ -15,3 +16,4 @@ productRouter.get('/', verifyToken, handleGetAllProducts);
 productRouter.post('/', verifyToken, uploadMulter.single('file'), handlePostProduct);
 productRouter.delete('/:id', verifyToken, handleDeleteProductById);
 productRouter.delete('/', verifyToken, handleDeleteAllProducts);
+productRouter.put('/:id', verifyToken, handleUpdateProductById);

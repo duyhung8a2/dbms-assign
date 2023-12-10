@@ -64,3 +64,25 @@ export const handleDeleteAllProducts = async (req: Request, res: Response, next:
     next(error);
   }
 };
+
+export const handleUpdateProductById = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    if (req.user.userRole !== 'admin') {
+      return res.status(401).json({ message: 'Not authorized' });
+    }
+    const productId = Number(req.params.id);
+    const { name, description, sizes, imageLinks } = req.body;
+    const image = req.file;
+    await ProductService.update({
+      productId: Number(productId),
+      name,
+      description,
+      sizes,
+      image,
+      imageLinks
+    });
+    res.status(200).json({ message: 'Update product successfully!' });
+  } catch (error) {
+    next(error);
+  }
+};

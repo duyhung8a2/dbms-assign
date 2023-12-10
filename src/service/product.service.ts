@@ -163,4 +163,72 @@ export class ProductService {
       throw error;
     }
   }
+
+  static async update({
+    productId,
+    name,
+    description,
+    sizes,
+    image,
+    imageLinks
+  }: {
+    productId: number;
+    name?: string;
+    description?: string;
+    sizes?: { sizeName: string; quantity: number; price: number }[];
+    image?: any;
+    imageLinks?: string[];
+  }): Promise<void | null> {
+    try {
+      const uploadImageService = UpLoadImageService.getInstance();
+      let finalImageLink: string[];
+      if (!image && !imageLinks) {
+        imageLinks = ['https://laforce.vn/wp-content/uploads/2021/06/giay-da-oxford-nam-gnla135-5-n-4.jpg'];
+      } else if (image && !imageLinks) {
+        finalImageLink = [await uploadImageService.uploadImage(image)];
+      } else if (!image && imageLinks) {
+        finalImageLink = imageLinks;
+      }
+
+      await knex.transaction(async (trx) => {
+        if (name || description) {
+          await trx('Products')
+            .where({ productId })
+            .update({
+              name: name || knex.raw('name'),
+              description: description || knex.raw('description')
+            });
+        }
+
+        // Remove existing images for the product
+        await trx('Images').where({ productId }).del();
+
+        // Insert updated images
+        for (const imageLink of finalImageLink) {
+          await trx('Images').insert({
+            productId,
+            imageLink
+          });
+        }
+
+        // Remove existing sizes for the product
+        await trx('Sizes').where({ productId }).del();
+
+        // Insert updated sizes
+        if (sizes && sizes.length > 0) {
+          for (const size of sizes) {
+            await trx('Sizes').insert({
+              productId,
+              ...size
+            });
+          }
+        }
+
+        await trx.commit();
+      });
+    } catch (error) {
+      console.error('Error updating product:', error);
+      throw error;
+    }
+  }
 }
