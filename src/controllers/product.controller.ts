@@ -24,7 +24,6 @@ export const handlePostProduct = async (req: Request, res: Response, next: NextF
 
 export const handleGetAllProducts = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    console.log('check req.user: ', req.user);
     const allProducts = await ProductService.getAllProducts();
     res.status(200).json(allProducts);
   } catch (error) {
