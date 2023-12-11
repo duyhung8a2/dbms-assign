@@ -51,9 +51,12 @@ export const handleUpdateCarts = async (req: Request, res: Response, next: NextF
 
 export const handleDeleteProductInCart = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const cartId = Number(req.params.id);
-    await CartModel.deleteById(cartId);
-    return res.status(200).json({ message: `Delete cartId: ${cartId} successfully` });
+    const { userId, productId } = req.body;
+    await CartModel.deleteById({
+      userId: Number(userId),
+      productId: Number(productId)
+    });
+    return res.status(200).json({ message: `Delete productId: ${productId} of userId: ${userId} successfully` });
   } catch (error) {
     next(error);
   }

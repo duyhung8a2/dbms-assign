@@ -35,9 +35,9 @@ export class CartModel {
       throw error;
     }
   }
-  static async deleteById(cartId: number) {
+  static async deleteById({ userId, productId }: { userId: number; productId: number }) {
     try {
-      await knex('Carts').where({ cartId }).del();
+      await knex('Carts').where({ userId, productId }).del();
     } catch (error) {
       console.error('Error deleting cart:', error);
       throw error;
