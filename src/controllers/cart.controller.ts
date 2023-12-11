@@ -11,7 +11,7 @@ export const handleAddToCart = async (req: Request, res: Response, next: NextFun
       quantity: Number(quantity),
       size
     };
-    const isProductExist = await CartService.checkIsProductInCart(Number(productId));
+    const isProductExist = await CartService.checkIsProductInCart(Number(productId), size);
     if (isProductExist) {
       return res.status(400).json({ message: 'This product existed in cart!' });
     }
@@ -35,15 +35,14 @@ export const handleGetProductsInCart = async (req: Request, res: Response, next:
 
 export const handleUpdateCarts = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { userId, productId, size, quantity } = req.body;
+    const { size, quantity, cartId } = req.body;
     const payload = {
-      userId: Number(userId),
-      productId: Number(productId),
       quantity: Number(quantity),
-      size
+      size,
+      cartId
     };
     await CartModel.update(payload);
-    return res.status(201).json({ message: `Update productId: ${productId} of userId: ${userId} successfully` });
+    return res.status(201).json({ message: `Update cartId: ${cartId} successfully` });
   } catch (error) {
     next(error);
   }
@@ -51,12 +50,11 @@ export const handleUpdateCarts = async (req: Request, res: Response, next: NextF
 
 export const handleDeleteProductInCart = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { userId, productId } = req.body;
+    const { cartId } = req.body;
     await CartModel.deleteById({
-      userId: Number(userId),
-      productId: Number(productId)
+      cartId: Number(cartId)
     });
-    return res.status(200).json({ message: `Delete productId: ${productId} of userId: ${userId} successfully` });
+    return res.status(200).json({ message: `Delete cartId: ${cartId} successfully` });
   } catch (error) {
     next(error);
   }

@@ -24,9 +24,9 @@ export class CartModel {
     }
   }
   static async update(cartData: Cart) {
-    const { userId, productId, size, quantity } = cartData;
+    const { cartId, size, quantity } = cartData;
     try {
-      await knex('Carts').where({ userId, productId }).update({
+      await knex('Carts').where({ cartId }).update({
         size,
         quantity
       });
@@ -35,9 +35,9 @@ export class CartModel {
       throw error;
     }
   }
-  static async deleteById({ userId, productId }: { userId: number; productId: number }) {
+  static async deleteById({ cartId }: { cartId: number }) {
     try {
-      await knex('Carts').where({ userId, productId }).del();
+      await knex('Carts').where({ cartId }).del();
     } catch (error) {
       console.error('Error deleting cart:', error);
       throw error;

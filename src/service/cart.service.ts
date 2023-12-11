@@ -25,8 +25,8 @@ export class CartService {
     return productsInCart;
   }
 
-  static async checkIsProductInCart(productId: number) {
-    const productExists = await knex('Carts').where('productId', productId).first();
+  static async checkIsProductInCart(productId: number, size: string) {
+    const productExists = await knex('Carts').where('productId', productId).andWhere('size', size).first();
     return !!productExists;
   }
 }
