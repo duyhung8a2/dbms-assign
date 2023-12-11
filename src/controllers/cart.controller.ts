@@ -60,7 +60,8 @@ export const handleDeleteProductInCart = async (req: Request, res: Response, nex
 
 export const handleDeleteAllProductsInCart = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    await CartModel.deleteAll();
+    const { userId } = req.body;
+    await CartModel.deleteAll(Number(userId));
     return res.status(200).json({ message: `Delete all products in cart successfully` });
   } catch (error) {
     next(error);
