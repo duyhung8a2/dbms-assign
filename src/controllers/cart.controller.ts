@@ -35,14 +35,15 @@ export const handleGetProductsInCart = async (req: Request, res: Response, next:
 
 export const handleUpdateCarts = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { cartId, size, quantity } = req.body;
+    const { userId, productId, size, quantity } = req.body;
     const payload = {
-      cartId: Number(cartId),
+      userId: Number(userId),
+      productId: Number(productId),
       quantity: Number(quantity),
       size
     };
     await CartModel.update(payload);
-    return res.status(201).json({ message: `Update cartId: ${cartId} to cart successfully` });
+    return res.status(201).json({ message: `Update productId: ${productId} of userId: ${userId} successfully` });
   } catch (error) {
     next(error);
   }

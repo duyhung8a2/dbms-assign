@@ -24,9 +24,9 @@ export class CartModel {
     }
   }
   static async update(cartData: Cart) {
-    const { cartId, size, quantity } = cartData;
+    const { userId, productId, size, quantity } = cartData;
     try {
-      await knex('Carts').where({ cartId }).update({
+      await knex('Carts').where({ userId, productId }).update({
         size,
         quantity
       });
