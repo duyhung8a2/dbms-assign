@@ -107,6 +107,23 @@ export class ProductService {
     }
   }
 
+  static async getProductByIdAndSize(productId: number, size: string): Promise<any | null> {
+    try {
+      const product: any = await knex('Products').select('Products.*').where('Products.productId', productId).first();
+      const sizes = await knex('Sizes')
+        .select('Sizes.quantity', 'Sizes.price', 'Sizes.sizeName')
+        .where('Sizes.productId', productId)
+        .andWhere('Sizes.sizeName', size);
+      product.sizes = sizes;
+      const images: string[] = await knex('Images').select('Images.imageLink').where('Images.productId', productId);
+      product.images = images;
+      return product;
+    } catch (error) {
+      console.error('Error fetching product by ID:', error);
+      throw error;
+    }
+  }
+
   static async getAllProducts(): Promise<any[]> {
     try {
       const products = await knex('Products')
