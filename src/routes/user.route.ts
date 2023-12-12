@@ -1,5 +1,11 @@
 import express from 'express';
-import { handleGetUserById, handleGetUsers, handleSignIn, handleSignUp } from '../controllers/user.controller';
+import {
+  handleGetUserById,
+  handleGetUsers,
+  handleSignIn,
+  handleSignUp,
+  handleUpdateUserProfile
+} from '../controllers/user.controller';
 import { verifyToken } from '../middleware/user.middleware';
 export const userRouter = express.Router();
 
@@ -10,5 +16,6 @@ export const userRouter = express.Router();
 
 userRouter.post('/signup', handleSignUp);
 userRouter.post('/signin', handleSignIn);
+userRouter.put('/:id', handleUpdateUserProfile);
 userRouter.get('/all', verifyToken, handleGetUsers);
 userRouter.get('/:id', verifyToken, handleGetUserById);

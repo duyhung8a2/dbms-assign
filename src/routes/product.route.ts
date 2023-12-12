@@ -11,8 +11,8 @@ import { verifyToken } from '../middleware/user.middleware';
 export const productRouter = express.Router();
 import { uploadMulter } from '../middleware/image.middleware';
 
-productRouter.get('/:id', verifyToken, handleGetProductById);
-productRouter.get('/', verifyToken, handleGetAllProducts);
+productRouter.get('/:id', handleGetProductById);
+productRouter.get('/', handleGetAllProducts);
 productRouter.post('/', verifyToken, uploadMulter.single('file'), handlePostProduct);
 productRouter.delete('/:id', verifyToken, handleDeleteProductById);
 productRouter.delete('/', verifyToken, handleDeleteAllProducts);

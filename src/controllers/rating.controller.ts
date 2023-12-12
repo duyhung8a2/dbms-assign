@@ -54,3 +54,13 @@ export const handleUpdateUserRating = async (req: Request, res: Response, next: 
     next(error);
   }
 };
+
+export const getAverageRatingProduct = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const productId = Number(req.params.id);
+    const avgRating = await RatingService.getProductAverageRating(productId);
+    return res.status(200).json({ averageRating: avgRating });
+  } catch (error) {
+    next(error);
+  }
+};

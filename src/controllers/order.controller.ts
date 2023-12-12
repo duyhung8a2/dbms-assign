@@ -25,3 +25,14 @@ export const handleGetAllOrderOfUser = async (req: Request, res: Response, next:
     next(error);
   }
 };
+
+export const handleUpdateOrderById = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const orderId = Number(req.params.id);
+    const payload = req.body;
+    await OrderService.updateOrder(orderId, payload);
+    return res.status(200).json({ message: 'Update order successful' });
+  } catch (error) {
+    next(error);
+  }
+};

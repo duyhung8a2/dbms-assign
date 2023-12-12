@@ -1,6 +1,7 @@
 import express from 'express';
 import { verifyToken } from '../middleware/user.middleware';
 import {
+  getAverageRatingProduct,
   handleGetProductRating,
   handleGetUserRating,
   handleUpdateUserRating,
@@ -12,3 +13,4 @@ ratingRouter.post('/', verifyToken, handleUserRatingProduct);
 ratingRouter.get('/product/:id', verifyToken, handleGetProductRating);
 ratingRouter.get('/user/:id', verifyToken, handleGetUserRating);
 ratingRouter.put('/', handleUpdateUserRating);
+ratingRouter.get('/average/:id', getAverageRatingProduct);

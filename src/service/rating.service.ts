@@ -25,8 +25,12 @@ export class RatingService {
     return res;
   }
 
+  static async getProductAverageRating(productId: number): Promise<number> {
+    const res = await knex('UsersRatingProducts').avg('star as averageRating').where({ productId }).first();
+    return res ? res.averageRating || 0 : 0;
+  }
+
   static async getUserRating(userId: number): Promise<any> {
-    console.log('check userId: ', 'userId');
     const res = await knex('UsersRatingProducts').select('*').where({ userId });
     return res;
   }

@@ -11,10 +11,16 @@ export class CartService {
         .where('Sizes.sizeName', product.size)
         .andWhere('Sizes.productId', product.productId);
       const imagesPromise = knex('Images').select('imageLink').where('Images.productId', product.productId);
+      const productInfoPromise = knex('Products')
+        .select('name', 'description')
+        .where({ productId: product.productId })
+        .first();
 
       // Await both promises concurrently using Promise.all
-      const [size, images] = await Promise.all([sizePromise, imagesPromise]);
+      const [size, images, productInfo] = await Promise.all([sizePromise, imagesPromise, productInfoPromise]);
 
+      product.name = productInfo.name;
+      product.description = productInfo.description;
       product.size = size;
       product.images = images;
     });

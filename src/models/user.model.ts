@@ -31,6 +31,16 @@ export class UserModel {
     }
   }
 
+  static async update(userId: number, payload: User): Promise<void> {
+    try {
+      const newUser: User = payload;
+
+      await knex('Users').update(newUser).where({ userId });
+    } catch (error: any) {
+      throw new Error(`Failed to create user: ${error.message}`);
+    }
+  }
+
   static async getAll(): Promise<User[]> {
     try {
       const users: User[] = await knex('Users').select('*');

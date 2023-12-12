@@ -42,6 +42,7 @@ export const handleGetProductById = async (req: Request, res: Response, next: Ne
 
 export const handleDeleteProductById = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    console.log('check req.user: ', req.user);
     if (req.user.userRole !== 'admin') {
       return res.status(401).json({ message: 'Not authorized' });
     }

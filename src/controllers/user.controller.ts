@@ -45,7 +45,19 @@ export const handleSignIn = async (req: Request, res: Response, next: NextFuncti
     }
     const token =
       user.userId && user.email && user.role && AuthService.generateToken(user.userId, user.email, user.role);
-    res.status(200).json({ token });
+    res.status(200).json({ token, ...user });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const handleUpdateUserProfile = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const userId = Number(req.params.id);
+    const payload = req.body;
+    console.log('check payload: ', payload);
+    await UserModel.update(userId, payload);
+    return res.status(200).json({ message: 'Update user profile successfully' });
   } catch (error) {
     next(error);
   }
